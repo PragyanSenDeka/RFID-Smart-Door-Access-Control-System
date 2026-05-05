@@ -8,9 +8,9 @@
 #include <MFRC522.h>
 
 
-// =========================
+
 // Hardware Pin Definitions
-// =========================
+
 
 // SPI bus (explicit for ESP32-C6)
 #define SPI_SCK_PIN          6       // RC522 SCK
@@ -24,22 +24,22 @@
 #define I2C_SCL_PIN          11      // LCD SCL
 
 // Other peripherals
-#define SERVO_PIN            20      // Servo (moved away from MOSI pin 7)
+#define SERVO_PIN            20      // Servo 
 #define REGISTER_BUTTON_PIN  8       // Register new card button
-#define ERASE_BUTTON_PIN     3       // Erase button (moved away from BOOT pin 9)
+#define ERASE_BUTTON_PIN     3       // Erase button
 
 
-// =========================
+
 // Hardware Objects
-// =========================
+
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 Servo doorServo;
 MFRC522 rfid(SS_PIN, RST_PIN);
 
 
-// =========================
+
 // System Variables
-// =========================
+
 const int MAX_CARDS = 10;
 
 String registeredCards[MAX_CARDS];
@@ -49,23 +49,23 @@ int accessGranted = 0;
 int accessDenied  = 0;
 
 
-// =========================
+
 // WiFi Settings
-// =========================
-const char* ssid     = "TBE3162";
-const char* password = "f38U175!";
+
+const char* ssid     = "PUT YOUR OWN WIFI SSID/NAME";
+const char* password = "PUT YOUR WIFI PASSWORD";
 
 
-// =========================
+
 // ThingSpeak Settings
-// =========================
-const char* thingSpeakApiKey = "0HW0XIJXR7ADDAIO";
+
+const char* thingSpeakApiKey = "PUT YOUR OWN API KEY FROM THINGSPEAK";
 const char* thingSpeakHost   = "api.thingspeak.com";
 
 
-// =========================
+
 // Function Prototypes
-// =========================
+
 void registerCard();
 void eraseAllCards();
 bool isCardRegistered(String cardID);
@@ -84,9 +84,9 @@ void connectWiFi();
 void updateThingSpeak();
 
 
-// =========================
+
 // Setup
-// =========================
+
 void setup() {
 
     Serial.begin(9600);
@@ -127,9 +127,9 @@ void setup() {
 }
 
 
-// =========================
+
 // Main Loop
-// =========================
+
 void loop() {
 
     if (digitalRead(REGISTER_BUTTON_PIN) == LOW) {
@@ -162,9 +162,9 @@ void loop() {
 }
 
 
-// =========================
+
 // Read RC522 UID
-// =========================
+
 String readCardUID() {
 
     String uid = "";
@@ -187,9 +187,9 @@ String readCardUID() {
 }
 
 
-// =========================
+
 // Card Registration
-// =========================
+
 void registerCard() {
 
     lcd.clear();
@@ -230,9 +230,9 @@ void registerCard() {
 }
 
 
-// =========================
+
 // Card Erase
-// =========================
+
 void eraseAllCards() {
 
     cardCount = 0;
@@ -251,9 +251,9 @@ void eraseAllCards() {
 }
 
 
-// =========================
+
 // Card Verification
-// =========================
+
 bool isCardRegistered(String cardID) {
 
     for (int i = 0; i < cardCount; i++) {
@@ -267,9 +267,9 @@ bool isCardRegistered(String cardID) {
 }
 
 
-// =========================
+
 // Access Control
-// =========================
+
 void grantAccess() {
 
     lcd.clear();
@@ -298,9 +298,9 @@ void denyAccess() {
 }
 
 
-// =========================
+
 // EEPROM Save
-// =========================
+
 void saveCardsToEEPROM() {
 
     for (int i = 0; i < MAX_CARDS; i++) {
@@ -315,9 +315,9 @@ void saveCardsToEEPROM() {
 }
 
 
-// =========================
+
 // EEPROM Load
-// =========================
+
 void loadCardsFromEEPROM() {
 
     cardCount = 0;
@@ -333,9 +333,9 @@ void loadCardsFromEEPROM() {
 }
 
 
-// =========================
+
 // EEPROM String Writer
-// =========================
+
 void writeStringToEEPROM(int addr, String data) {
 
     int len = data.length();
@@ -348,9 +348,9 @@ void writeStringToEEPROM(int addr, String data) {
 }
 
 
-// =========================
+
 // EEPROM String Reader
-// =========================
+
 String readStringFromEEPROM(int addr) {
 
     int len = EEPROM.read(addr);
@@ -364,9 +364,9 @@ String readStringFromEEPROM(int addr) {
 }
 
 
-// =========================
+
 // WiFi Connection
-// =========================
+
 void connectWiFi() {
 
     WiFi.begin(ssid, password);
@@ -386,9 +386,9 @@ void connectWiFi() {
 }
 
 
-// =========================
+
 // ThingSpeak Upload
-// =========================
+
 void updateThingSpeak() {
 
     if (WiFi.status() != WL_CONNECTED) {
